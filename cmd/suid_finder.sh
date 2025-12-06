@@ -150,6 +150,7 @@ find "$START_DIR" -xdev -type f -perm -4000 2>/dev/null | while IFS= read -r fpa
   ftyp=$(file -b -- "$fpath" 2>/dev/null)
 
   fName=$(basename "$fpath")
+  descName="${fName}_desc"
   {
     echo "------------------------------------------------------------"
     echo "File: $fpath"
@@ -158,14 +159,15 @@ find "$START_DIR" -xdev -type f -perm -4000 2>/dev/null | while IFS= read -r fpa
     echo "Description:"
   } >>"$DETAIL_FILE"
   # Описание
-  if [[ -v "${fName}_desc" ]]; then
-    for key in "${!passwd_desc[@]}"; do
-      echo "$key: ${passwd_desc[$key]}" >> "$DETAIL_FILE"
-    done
+  if declare -p $descName &>/dev/null; then
+    declare -n obj=$descName
+    echo "Назначение: ${obj[Назначение]}" >>"$DETAIL_FILE"
+    echo "Штатное использование: ${obj[Штатное использование]}" >>"$DETAIL_FILE"
+    echo "Риск при компрометации: ${obj[Риск при компрометации]}" >>"$DETAIL_FILE"
   else
-    {
-      echo "$default_desc"
-    } >>"$DETAIL_FILE"
+    echo "Назначение: ${default_desc[Назначение]}" >>"$DETAIL_FILE"
+    echo "Штатное использование: ${default_desc[Штатное использование]}" >>"$DETAIL_FILE"
+    echo "Риск при компрометации: ${default_desc[Риск при компрометации]}" >>"$DETAIL_FILE"
   fi
 
 done
