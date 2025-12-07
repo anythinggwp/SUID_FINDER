@@ -1,5 +1,10 @@
 # !/bin/sh
 
+# Параметры
+START_DIR=${1:-/}
+HOSTNAME_PARAM=$2
+OUT_DIR=${3:-$(pwd)}
+
 # Описание файлов
 
 declare -A su_desc=(
@@ -68,22 +73,14 @@ declare -A default_desc=(
   ["Риск при компрометации"]="любой SUID-бинарь при несанкционированном доступе может привести к повышению привилегий, утечке данных или нарушению работы системы."
 )
 
-suid_objects=(su_desc passwd_desc sudo_desc mount_desc umount_desc ping_desc chfn_desc chsh_desc newgrp_desc passwd_system_desc default_desc)
-
 # Проверки утилит
-required_cmds="find md5sum file hostname"
+required_cmds="find md5sum cksum file hostname"
 for cmd in $required_cmds; do
   if ! command -v "$cmd" >/dev/null 2>&1; then
     echo "Ошибка: требуется команда '$cmd' но она не найдена в PATH." >&2
     exit 2
   fi
 done
-
-# ###############################################################################
-# # Параметры
-START_DIR=${1:-/}
-HOSTNAME_PARAM=$2
-OUT_DIR=${3:-$(pwd)}
 
 if [ -z "$HOSTNAME_PARAM" ]; then
   echo "Использование: $0 [START_DIR] HOSTNAME [OUTPUT_DIR]"
@@ -141,10 +138,23 @@ find "$START_DIR" -xdev -type f -perm -4000 2>/dev/null | while IFS= read -r fpa
   echo "$fpath" >>"$LIST_FILE"
 
   # Соберём md5 и тип файла
-  if command -v md5sum >/dev/null 2>&1; then
-    md5=$(md5sum "$fpath" 2>/dev/null | awk '{print $1}')
+  # if command -v md5sum >/dev/null 2>&1; then
+  #   md5=$(md5sum "$fpath" 2>/dev/null | awk '{print $1}')
+  # else
+  #   md5="(md5sum отсутствует)"
+  # fi
+
+  if command -v cksum >/dev/null 2>&1; then
+    crc=$(cksum -a crc "$fpath" 2>/dev/null | awk '{print $1}')
+    md5=$(cksum -a md5 "$fpath" 2>/dev/null | awk '{print $4}')
+    sha1=$(cksum -a sha1 "$fpath" 2>/dev/null | awk '{print $4}')
+    sha224=$(cksum -a sha224 "$fpath" 2>/dev/null | awk '{print $4}')
+    sha256=$(cksum -a sha256 "$fpath" 2>/dev/null | awk '{print $4}')
+    sha512=$(cksum -a sha512 "$fpath" 2>/dev/null | awk '{print $4}')
+    blake2b=$(cksum -a blake2b "$fpath" 2>/dev/null | awk '{print $4}')
+    sm3=$(cksum -a sm3 "$fpath" 2>/dev/null | awk '{print $4}')
   else
-    md5="(md5sum отсутствует)"
+    sha1="(cksum отсутствует)"
   fi
 
   ftyp=$(file -b -- "$fpath" 2>/dev/null)
@@ -153,20 +163,28 @@ find "$START_DIR" -xdev -type f -perm -4000 2>/dev/null | while IFS= read -r fpa
   descName="${fName}_desc"
   {
     echo "------------------------------------------------------------"
-    echo "File: $fpath"
-    echo "MD5:  $md5"
-    echo "Type: $ftyp"
-    echo "Description:"
+    echo "Файл:                   $fpath"
+    echo "CRC:                    $crc"
+    echo "MD5:                    $md5"
+    echo "SHA1:                   $sha1"
+    echo "SHA224:                 $sha224"
+    echo "SHA256:                 $sha256"
+    echo "SHA512:                 $sha512"
+    echo "BLAKE2B:                $blake2b"
+    echo "SM3:                    $sm3"
+    echo "Тип:                    $ftyp"
+    echo "Описание"
   } >>"$DETAIL_FILE"
+
   # Описание
   if declare -p $descName &>/dev/null; then
     declare -n obj=$descName
-    echo "Назначение: ${obj[Назначение]}" >>"$DETAIL_FILE"
-    echo "Штатное использование: ${obj[Штатное использование]}" >>"$DETAIL_FILE"
+    echo "Назначение:             ${obj[Назначение]}" >>"$DETAIL_FILE"
+    echo "Штатное использование:  ${obj[Штатное использование]}" >>"$DETAIL_FILE"
     echo "Риск при компрометации: ${obj[Риск при компрометации]}" >>"$DETAIL_FILE"
   else
-    echo "Назначение: ${default_desc[Назначение]}" >>"$DETAIL_FILE"
-    echo "Штатное использование: ${default_desc[Штатное использование]}" >>"$DETAIL_FILE"
+    echo "Назначение:             ${default_desc[Назначение]}" >>"$DETAIL_FILE"
+    echo "Штатное использование:  ${default_desc[Штатное использование]}" >>"$DETAIL_FILE"
     echo "Риск при компрометации: ${default_desc[Риск при компрометации]}" >>"$DETAIL_FILE"
   fi
 
