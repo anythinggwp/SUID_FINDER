@@ -182,7 +182,7 @@ for cmd in $required_check_sum_utils; do
   fi
 done
 
-if $cntUtils == 2; then
+if (( $cntUtils == 2 )); then
   echo "Ошибка: требуется хотя бы один калькулятор контрольных сумм (md5sum,cksum)." >&2
   exit 2
 fi
