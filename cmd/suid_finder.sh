@@ -114,17 +114,17 @@ DETAIL_FILE="$OUT_DIR/suid_details_${HOSTNAME_PARAM}_${TS}.txt"
 
 # Запись заголовков в файлы
 cat >"$LIST_FILE" <<EOF
-SUID files list
-Host: $HOSTNAME_PARAM
-Search start dir: $START_DIR
-Generated: $(date -u)
+SUID список файлов
+Имя хоста: $HOSTNAME_PARAM
+Стартовый каталог: $START_DIR
+Сгенерирован: $(date -u)
 EOF
 
 cat >"$DETAIL_FILE" <<EOF
-SUID files detailed list
-Host: $HOSTNAME_PARAM
-Search start dir: $START_DIR
-Generated: $(date -u)
+SUID файлы детальный список
+Имя хоста: $HOSTNAME_PARAM
+Стартовый каталог: $START_DIR
+Сгенерирован: $(date -u)
 EOF
 
 # # Поиск SUID файлов и формирование отчётов
