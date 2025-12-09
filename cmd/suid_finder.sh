@@ -188,17 +188,16 @@ if (( $cntUtils == 2 )); then
 fi
 
 if [ -z "$HOSTNAME_PARAM" ]; then
-  echo "Использование: $0 [START_DIR] HOSTNAME [OUTPUT_DIR]"
-  echo "Пример: $0 / my-computer /var/log/suid_reports"
-  exit 1
+  HOSTNAME_PARAM="$HOSTNAME"
 fi
 
-# Проверка каталога для результатов
+# Проверка существования каталога для результатов
 if [ ! -e "$OUT_DIR" ]; then
   echo "Ошибка: каталог для результатов '$OUT_DIR' не существует." >&2
   exit 3
 fi
 
+# Проверка что параметр для сохраненения результата указывает на каталог
 if [ ! -d "$OUT_DIR" ]; then
   echo "Ошибка: путь '$OUT_DIR' не является каталогом." >&2
   exit 4
