@@ -1,7 +1,7 @@
 # !/bin/sh
 RESOLV="/etc/resolv.conf"
 BACKUP="/etc/resolv.conf.backup"
-# делаем копию файла с адресамии dns, чтобы востанвить после flush
+# делаем копию файла с адресами dns, чтобы вставить после flush
 cp "$RESOLV" "$BACKUP"
 
 # Создаем мост
@@ -25,6 +25,7 @@ while true; do
         if ! grep -q "nameserver" "$RESOLV"; then
             echo "DNS сброшен"
             cp "$BACKUP" "$RESOLV"
+            # Удаляем backup
             rm "$BACKUP"
             break
         fi
