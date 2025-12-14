@@ -7,14 +7,7 @@ mkdir -p /mnt/chroot
 tar -xzf alpine-chroot.tar.gz -C /mnt/chroot
 mkdir -p /mnt/chroot/{proc,sys,dev,dev/pts,dev/shm,tmp,usr,bin,sbin,etc,var}
 
-echo "Монтируем ядро хоста"
-mount -t proc proc /mnt/chroot/proc
-mount --rbind /sys /mnt/chroot/sys
-mount --rbind /dev /mnt/chroot/dev
+echo "Копируем адреса DNS"
+cp /etc/resolv.conf /mnt/chroot/etc/
 
-chroot /mnt/chroot /bin/sh --login
-
-echo "Размонтирование ядра хоста"
-umount -l /mnt/chroot/proc
-umount -R -l /mnt/chroot/sys
-umount -R -l /mnt/chroot/dev
+./chroot_start.sh

@@ -12,3 +12,10 @@ qemu-start-spice:
 
 chroot-deploy:
 	sudo ./cmd/chroot_deploy.sh
+
+chroot-start:
+	sudo ./cmd/chroot_deploy.sh
+
+chroot-remove:
+	sudo rm -rf /mnt/chroot
+	sudo rm ./alpine-chroot.tar.gz
