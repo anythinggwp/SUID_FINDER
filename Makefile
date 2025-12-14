@@ -9,3 +9,6 @@ qemu-start-console:
 
 qemu-start-spice:
 	sudo ./cmd/qemu_start_spice.sh
+
+chroot-deploy:
+	sudo ./cmd/chroot_deploy.sh
