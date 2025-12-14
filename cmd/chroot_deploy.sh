@@ -5,13 +5,16 @@ wget -O alpine-chroot.tar.gz https://dl-cdn.alpinelinux.org/alpine/v3.23/release
 echo "Распаковываем архив"
 mkdir -p /mnt/chroot
 tar -xzf alpine-chroot.tar.gz -C /mnt/chroot
+mkdir -p /mnt/chroot/{proc,sys,dev,dev/pts,dev/shm,tmp,usr,bin,sbin,etc,var}
 
+echo "Монтируем ядро хоста"
 mount -t proc proc /mnt/chroot/proc
 mount --rbind /sys /mnt/chroot/sys
 mount --rbind /dev /mnt/chroot/dev
 
-chroot /mnt/chroot /bin/sh
+chroot /mnt/chroot /bin/sh --login
 
-umount -R /mnt/chroot/dev
-umount -R /mnt/chroot/sys
-umount /mnt/chroot/proc
+echo "Размонтирование ядра хоста"
+umount -l /mnt/chroot/proc
+umount -R -l /mnt/chroot/sys
+umount -R -l /mnt/chroot/dev
