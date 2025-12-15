@@ -12,7 +12,7 @@ echo "Копируем адреса DNS"
 cp /etc/resolv.conf /mnt/chroot/etc/
 
 # Создаём все необходимые директории до монтирования
-mkdir -p /mnt/chroot/{proc,sys,dev/pts,dev/shm,tmp}
+mkdir -p /mnt/chroot/{proc,sys,tmp}
 
 echo "Монтируем ядро хоста"
 mount -t tmpfs tmpfs /mnt/chroot/dev         

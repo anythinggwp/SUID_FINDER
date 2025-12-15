@@ -19,3 +19,9 @@ chroot-start:
 chroot-remove:
 	sudo rm -rf /mnt/chroot
 	sudo rm ./alpine-chroot.tar.gz
+
+virtualbox-deploy:
+	sudo ./cmd/virtualbox_deploy.sh
+
+virtualbox-start:
+	sudo ./cmd/virtualbox_start.sh
