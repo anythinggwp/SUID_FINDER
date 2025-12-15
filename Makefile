@@ -14,7 +14,7 @@ chroot-deploy:
 	sudo ./cmd/chroot_deploy.sh
 
 chroot-start:
-	sudo ./cmd/chroot_deploy.sh
+	sudo ./cmd/chroot_start.sh
 
 chroot-remove:
 	sudo rm -rf /mnt/chroot
