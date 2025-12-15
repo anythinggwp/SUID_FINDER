@@ -1,4 +1,4 @@
-# !/bin/sh
+#!/bin/sh
 echo "Загружаем образ для chroot"
 wget -O alpine-chroot.tar.gz https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-minirootfs-3.23.0-x86_64.tar.gz
 
@@ -10,8 +10,21 @@ tar -xzf alpine-chroot.tar.gz -C /mnt/chroot
 echo "Копируем адреса DNS"
 cp /etc/resolv.conf /mnt/chroot/etc/
 
-echo "Создаем пользователя root"
-echo "root:x:0:0:root:/root:/bin/sh" > /mnt/chroot/etc/passwd
-echo "root::0:0:99999:7:::" > /mnt/chroot/etc/shadow
-mkdir -p /mnt/chroot/root
-./cmd/chroot_start.sh
+echo "Монтируем ядро хоста"
+mount -t proc proc /mnt/chroot/proc
+
+mount --rbind /sys /mnt/chroot/sys
+mount --make-rslave /mnt/chroot/sys
+
+mount --rbind /dev /mnt/chroot/dev
+mount --make-rslave /mnt/chroot/dev
+
+mount -t devpts devpts /mnt/chroot/dev/pts
+
+chroot /mnt/chroot /bin/sh
+
+echo "Размонтирование ядра хоста"
+umount -l /mnt/chroot/proc
+umount -l /mnt/chroot/dev/pts
+umount -l /mnt/chroot/sys
+umount -l /mnt/chroot/dev
