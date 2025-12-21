@@ -38,7 +38,7 @@ build-gcc-host-remove:
 	sudo rm -rf /tmp/gcc-tmp-tty3/*
 
 build-gcc-host-start:
-	sudo ./cmd/build_gcc_host_start.sh
+	./cmd/build_gcc_host_start.sh
 
 build-gcc-lxc:
 	sudo ./cmd/build_gcc_lxc.sh

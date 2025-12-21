@@ -15,7 +15,7 @@ run_build() {
     local buildDir="$1"
     local buildNum="$2"
     if [[ "$TERM" == "fly-term" ]]; then
-        $TERM -e ./cmd/gcc_build_script.sh $buildDir $buildNum
+        $TERM -e ./cmd/gcc_build_script.sh $buildDir $buildNum &
     fi
 }
 
