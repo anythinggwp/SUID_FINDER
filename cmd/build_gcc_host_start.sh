@@ -2,7 +2,7 @@
 set -e
 
 TERM="fly-term"
-GCCSOURCE="/tmp/git"
+GCCSOURCE="~/git"
 BUILD1="/tmp/gcc-tmp-tty1/"
 BUILD2="/tmp/gcc-tmp-tty2/"
 BUILD3="/tmp/gcc-tmp-tty3/"
