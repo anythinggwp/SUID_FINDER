@@ -16,7 +16,7 @@ sudo lxc-start -n "$CONTNAME1"
 run_in_container() {
     local name="$1"
     local cmd="$2"
-    sudo lxc-attach -n "$CONTAINER_NAME" -- bash -c "$cmd"
+    sudo lxc-attach -n "$name" -- bash -c "$cmd"
 }
 
 echo "Обновляем и устанавливаем зависимости в контейнер"
