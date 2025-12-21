@@ -30,9 +30,7 @@ sudo lxc-start -n "$CONTNAME1"
 
 echo "Запускаем конфигурирование сборки"
 
-run_in_container "$CONTNAME1" "
-cd $BUILD
-/root/gcc/configure \
+run_in_container "$CONTNAME1" "cd $BUILD && /root/gcc/configure \
     --prefix=/opt/gcc-test-build \
     --enable-languages=c \
     --disable-multilib \
