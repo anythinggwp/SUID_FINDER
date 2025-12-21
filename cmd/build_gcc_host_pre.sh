@@ -2,7 +2,7 @@
 set -e
 
 # TERM="kitty"
-GCCSOURCE="/tmp/git"
+GCCSOURCE="~/git"
 BUILD1="/tmp/gcc-tmp-tty1/"
 BUILD2="/tmp/gcc-tmp-tty2/"
 BUILD3="/tmp/gcc-tmp-tty3/"
@@ -43,7 +43,10 @@ echo "Загрузка gcc c git"
 
 mkdir -p $GCCSOURCE $BUILD1 $BUILD2 $BUILD3
 cd $GCCSOURCE
-git clone $GCCREPO
+
+if ! git clone "$GCCREPO"; then
+    echo "ошибка при клонировани репозитория пытаемся продолжитьэ"
+fi
 
 configureBuild() {
     local buildDir="$1"

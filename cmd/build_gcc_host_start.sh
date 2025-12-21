@@ -13,12 +13,12 @@ GCCREPO="https://github.com/gcc-mirror/gcc"
 
 run_build() {
     local buildDir="$1"
-
-    if [ "$TERM" =="fly-term" ]; then
-        $TERM -e ./cmd/gcc_build_script.sh
+    local buildNum="$2"
+    if [[ "$TERM" == "fly-term" ]]; then
+        $TERM -e ./cmd/gcc_build_script.sh $buildDir $buildNum
     fi
 }
 
-run_build "$BUILD1" "Build1"
-run_build "$BUILD2" "Build2"
-run_build "$BUILD3" "Build3"
+run_build "$BUILD1" "tty1"
+run_build "$BUILD2" "tty2"
+run_build "$BUILD3" "tty3"
