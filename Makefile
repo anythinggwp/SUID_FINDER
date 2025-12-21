@@ -33,12 +33,12 @@ build-gcc-host-prepare:
 	sudo ./cmd/build_gcc_host_pre.sh
 
 build-gcc-host-remove:
-	sudo rm -rf /tmp /tmp/gcc-tmp-tty1/*
-	sudo rm -rf /tmp /tmp/gcc-tmp-tty2/*
-	sudo rm -rf /tmp /tmp/gcc-tmp-tty3/*
+	sudo rm -rf /tmp/gcc-tmp-tty1/*
+	sudo rm -rf /tmp/gcc-tmp-tty2/*
+	sudo rm -rf /tmp/gcc-tmp-tty3/*
 
 build-gcc-host-start:
-	sudo ./cmd/build_gcc_host_build.sh
+	sudo ./cmd/build_gcc_host_start.sh
 
 build-gcc-lxc:
 	sudo ./cmd/build_gcc_lxc.sh
