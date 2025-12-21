@@ -14,9 +14,11 @@ RESULT3="/tmp/gcc-tty3/"
 GCCREPO="https://github.com/gcc-mirror/gcc"
 
 echo "Создаем контейнеры"
-fly-term -e sudo lxc-create -t astralinux-se -n "$CONTNAME1"
-fly-term -e sudo lxc-create -t astralinux-se -n "$CONTNAME2"
-fly-term -e sudo lxc-create -t astralinux-se -n "$CONTNAME3"
+fly-term -e sudo lxc-create -t astralinux-se -n "$CONTNAME1" &
+fly-term -e sudo lxc-create -t astralinux-se -n "$CONTNAME2" &
+fly-term -e sudo lxc-create -t astralinux-se -n "$CONTNAME3" &
+
+wait
 
 # run_in_container() {
 #     local cmd="$1"
