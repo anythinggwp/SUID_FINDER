@@ -41,10 +41,10 @@ build-gcc-host-start:
 	./cmd/build_gcc_host_start.sh
 
 build-gcc-lxc-pre:
-	sudo ./cmd/build_gcc_lxc_pre.sh
+	./cmd/build_gcc_lxc_pre.sh
 
 build-gcc-lxc-start:
-	sudo ./cmd/build_gcc_lxc_start.sh
+	./cmd/build_gcc_lxc_start.sh
 
 build-gcc-lxc-remove:
 	sudo lxc-destroy -n cont-1
