@@ -32,7 +32,12 @@ virtualbox-remove:
 build-gcc-host-prepare:
 	sudo ./cmd/build_gcc_host_pre.sh
 
-build-gcc-host-build:
+build-gcc-host-remove:
+	sudo rm -rf /tmp /tmp/gcc-tmp-tty1/*
+	sudo rm -rf /tmp /tmp/gcc-tmp-tty2/*
+	sudo rm -rf /tmp /tmp/gcc-tmp-tty3/*
+
+build-gcc-host-start:
 	sudo ./cmd/build_gcc_host_build.sh
 
 build-gcc-lxc:
