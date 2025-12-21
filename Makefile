@@ -29,8 +29,11 @@ virtualbox-start:
 virtualbox-remove:
 	rm -rf ~/VirtualBox VMs/alpineVM
 
-build-gcc-host:
-	sudo ./cmd/build_gcc_host.sh
+build-gcc-host-prepare:
+	sudo ./cmd/build_gcc_host_pre.sh
+
+build-gcc-host-build:
+	sudo ./cmd/build_gcc_host_build.sh
 
 build-gcc-lxc:
 	sudo ./cmd/build_gcc_lxc.sh
