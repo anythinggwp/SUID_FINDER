@@ -48,8 +48,8 @@ cd $BUILD
 sudo lxc-stop -n "$CONTNAME1"
 
 echo "Клонируем контейнеры"
-sudo lxc-clone -n "$CONTNAME1" -N "$CONTNAME2"
-sudo lxc-clone -n "$CONTNAME1" -N "$CONTNAME3"
+sudo lxc-copy -n "$CONTNAME1" -N "$CONTNAME2"
+sudo lxc-copy -n "$CONTNAME1" -N "$CONTNAME3"
 
 # echo "Запускаем контейнеры"
 # sudo lxc-start -n "$CONTNAME1"
