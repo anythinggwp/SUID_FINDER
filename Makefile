@@ -30,7 +30,7 @@ virtualbox-remove:
 	rm -rf ~/VirtualBox VMs/alpineVM
 
 build-gcc-host-prepare:
-	sudo ./cmd/build_gcc_host_pre.sh
+	./cmd/build_gcc_host_pre.sh
 
 build-gcc-host-remove:
 	sudo rm -rf /tmp/gcc-tmp-tty1/*
