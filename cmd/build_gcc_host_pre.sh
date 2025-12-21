@@ -74,16 +74,3 @@ echo "конфигурируем сборку"
 configureBuild "$BUILD1" "$RESULT1"
 configureBuild "$BUILD2" "$RESULT2"
 configureBuild "$BUILD3" "$RESULT3"
-# run_build() {
-#     local build_dir="$1"
-#     local term_title="$2"
-
-#     $TERM bash -c "
-#         echo 'Начинаем сборку в $build_dir ...'
-#         sleep 60
-#     " &
-# }
-
-# run_build "$BUILD1" "Build1"
-# run_build "$BUILD2" "Build2"
-# run_build "$BUILD3" "Build3"
