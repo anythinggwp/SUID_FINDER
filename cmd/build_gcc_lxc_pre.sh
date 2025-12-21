@@ -15,9 +15,7 @@ GCCREPO="https://github.com/gcc-mirror/gcc"
 
 echo "Создаем контейнер"
 sudo lxc-create -t astralinux-se -n "$CONTNAME1" 
-
-
-
+sudo lxc-start -n "$CONTNAME1" 
 
 run_in_container() {
     local name="$1"
@@ -27,7 +25,7 @@ run_in_container() {
 
 echo "Обновляем и устанавливаем зависимости в контейнер"
 run_in_container "$CONTNAME1" "apt-get update && apt-get install -y build-essential gcc g++ make flex bison libgmp-dev libmpfr-dev libmpc-dev texinfo wget git"
-
+sudo lxc-stop -n "$CONTNAME1" 
 sudo rsync -av ~/git/gcc/ /var/lib/lxc/cont-1/rootfs/root/gcc/
 
 # echo "Клонируем GCC (если еще не склонирован)..."
