@@ -24,4 +24,13 @@ virtualbox-deploy:
 	sudo ./cmd/virtualbox_deploy.sh
 
 virtualbox-start:
-	sudo ./cmd/virtualbox_start.sh
+	VBoxManage startvm "alpineVM"
+
+virtualbox-remove:
+	rm -rf ~/VirtualBox VMs/alpineVM
+
+build-gcc-host:
+	sudo ./cmd/build_gcc_host.sh
+
+build-gcc-lxc:
+	sudo ./cmd/build_gcc_lxc.sh

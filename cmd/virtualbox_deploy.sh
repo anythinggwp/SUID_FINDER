@@ -1,30 +1,27 @@
 # !/bin/sh
 set -e
 
-echo "Загружаем дистрибутив для virtualbox"
-wget -O alpine-virtualbox.iso https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.0-x86_64.iso
+if [ -f "./alpine-virtualbox.iso" ]; then
+    echo "Файл ISO уже существует: alpine-virtualbox.iso"
+else
+    echo "Загружаем дистрибутив для virtualbox"
+    wget -O alpine-virtualbox.iso https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-standard-3.23.0-x86_64.iso
+fi
 
-# echo "Создаем tap интерфейс"
-# ip tuntap add dev tap0 mode tap
-# ip link set tap0 master br0
-# ip link set tap0 up
 
-# --- Настройки виртуальной машины ---
 VM_NAME="alpineVM"
-VM_OS_TYPE="Linux_64"        
-VM_RAM=1024                  
+VM_OS_TYPE="Linux64"
+VM_RAM=2048
 VM_VRAM=16                   
-VM_CPU=1
+VM_CPU=2
 VM_DISK_SIZE=8000           
 VM_DISK_PATH="$HOME/VirtualBox VMs/$VM_NAME/$VM_NAME.vdi"
 VM_ISO_PATH="./alpine-virtualbox.iso"
-VM_NET="nat"                
 
-# Создаем директорию для хранения vm virtualbox
-mkdir -p "$HOME/VirtualBoxVMs/$VM_NAME"
+# Создаем директорию для хранения vm virtualbox если нет
+mkdir -p "$HOME/VirtualBox VMs/$VM_NAME"
 
 echo "--- Создание виртуальной машины ---"
-
 VBoxManage createvm \
     --name "$VM_NAME" \
     --ostype "$VM_OS_TYPE" \
@@ -37,10 +34,16 @@ VBoxManage modifyvm "$VM_NAME" \
     --cpus $VM_CPU \
     --boot1 dvd \
     --boot2 disk \
-    --boot3 none \
-    --boot4 none \
     --ioapic on \
-    --nic1 $VM_NET
+    --hwvirtex on \
+    --largepages on
+
+echo "--- Настройка сети ---"
+VBoxManage modifyvm "$VM_NAME" \
+    --nic1 bridged \
+    --bridgeadapter1 br0 \
+    --nictype1 82540EM \
+    --cableconnected1 on
 
 echo "--- Создание виртуального диска ---"
 VBoxManage createmedium disk \
@@ -75,8 +78,9 @@ VBoxManage storageattach "$VM_NAME" \
 
 echo "--- Включение ускорения 3D и гостевых дополнений ---"
 VBoxManage modifyvm "$VM_NAME" \
+    --graphicscontroller vmsvga \
     --accelerate3d on \
     --audio none
 
-echo "Виртуальная машина '$VM_NAME' создана. Можно запускать через:"
-echo "VBoxManage startvm \"$VM_NAME\" --type gui"
+echo "--- Виртуальная машина '$VM_NAME' создана. Запускаем ВМ ---"
+VBoxManage startvm "$VM_NAME"
