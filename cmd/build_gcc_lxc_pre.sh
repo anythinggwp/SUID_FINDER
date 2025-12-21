@@ -13,20 +13,22 @@ RESULT2="/tmp/gcc-tty2/"
 RESULT3="/tmp/gcc-tty3/"
 GCCREPO="https://github.com/gcc-mirror/gcc"
 
-echo "Создаем контейнеры"
-fly-term -e sudo lxc-create -t astralinux-se -n "$CONTNAME1" &
-fly-term -e sudo lxc-create -t astralinux-se -n "$CONTNAME2" &
-fly-term -e sudo lxc-create -t astralinux-se -n "$CONTNAME3" &
+echo "Создаем контейнер"
+sudo lxc-create -t astralinux-se -n "$CONTNAME1" 
 
-wait
 
-# run_in_container() {
-#     local cmd="$1"
-#     sudo lxc-attach -n "$CONTAINER_NAME" -- bash -c "$cmd"
-# }
 
-# echo "Обновляем и устанавливаем зависимости в контейнере..."
-# run_in_container "apt-get update && apt-get install -y build-essential gcc g++ make flex bison libgmp-dev libmpfr-dev libmpc-dev texinfo wget git"
+
+run_in_container() {
+    local name="$1"
+    local cmd="$2"
+    sudo lxc-attach -n "$CONTAINER_NAME" -- bash -c "$cmd" 
+}
+
+echo "Обновляем и устанавливаем зависимости в контейнер"
+run_in_container "$CONTNAME1" "apt-get update && apt-get install -y build-essential gcc g++ make flex bison libgmp-dev libmpfr-dev libmpc-dev texinfo wget git"
+
+sudo rsync -av ~/git/gcc/ /var/lib/lxc/cont-1/rootfs/root/gcc/
 
 # echo "Клонируем GCC (если еще не склонирован)..."
 # run_in_container "mkdir -p $SRC_DIR && cd $SRC_DIR && if [ ! -d gcc ]; then git clone $GCC_REPO; fi"
