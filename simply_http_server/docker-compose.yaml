@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - pg-net
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - pg-net
+
+  simply-server:
+    image: simply:0.0.1
+    container_name: simply-server
+    restart: unless-stopped           # автоперезапуск
+    ports:
+      - "8090:8090"                  # проброс порта для сервера
+    depends_on:
+      - postgres
+    networks:
+      - pg-net
+
+volumes:
+  pg_data:
+
+networks:
+  pg-net:
+    driver: bridge

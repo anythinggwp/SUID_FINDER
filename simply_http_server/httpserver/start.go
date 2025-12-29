@@ -1,7 +1,10 @@
 package httpserver
 
-import "net/http"
+import (
+	"net/http"
+	"simply_http_server/config"
+)
 
-func Start(addres, port string) error {
-	return http.ListenAndServe(addres+":"+port, ViewRouter())
+func Start(cfg *config.GlobalConfig) error {
+	return http.ListenAndServe(cfg.Host+":"+cfg.Port, ViewRouter(cfg))
 }

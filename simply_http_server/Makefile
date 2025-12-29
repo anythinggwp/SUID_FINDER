@@ -2,7 +2,8 @@ PWD := $(shell pwd)
 FRONT_PATH=front
 build:
 	go build -o simply
-
+build-docker:
+	docker build -t simply:0.0.1 .
 node:
 	docker run -it --rm \
 		-v $(PWD)/$(FRONT_PATH):/app \
@@ -22,3 +23,5 @@ front-build:
 		-w /app/laba \
 		node:25 npm run build
 
+run-simply:
+	docker compose up -d
