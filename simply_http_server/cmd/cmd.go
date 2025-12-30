@@ -8,7 +8,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// var log = logrus.New()
 
 var rootCmd = &cobra.Command{
 	Use:   "simply-server",

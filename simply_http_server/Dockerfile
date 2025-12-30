@@ -11,7 +11,7 @@ RUN go build -o simply
 FROM alpine:3.20
 
 WORKDIR /app
-RUN mkdir -p /app/front/laba
+RUN mkdir -p /app/front/laba/dist
 COPY ./front/laba/dist /app/front/laba/dist
 COPY ./config.json /app/config.json
 COPY --from=builder /app/simply /app/simply

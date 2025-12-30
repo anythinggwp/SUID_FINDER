@@ -2,18 +2,18 @@ version: "3.9"
 
 services:
   postgres:
-    image: postgres:16
-    container_name: postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
+    image: postgres:16 # загржаемй образ имя:тег
+    container_name: postgres # имя контейнера
+    restart: unless-stopped  # автоперезапуск
+    environment: # настройка переменных окружения
+      POSTGRES_USER: postgres 
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: postgres
-    ports:
+    ports: # проброс портов (порт на хосте):(порт в контейнере)
       - "5432:5432"
-    volumes:
+    volumes: # хранилище
       - pg_data:/var/lib/postgresql/data
-    networks:
+    networks: # к каой сети подключаемся
       - pg-net
 
   pgadmin:
@@ -33,7 +33,7 @@ services:
   simply-server:
     image: simply:0.0.1
     container_name: simply-server
-    restart: unless-stopped           # автоперезапуск
+    restart: unless-stopped           
     ports:
       - "8090:8090"                  # проброс порта для сервера
     depends_on:
@@ -41,9 +41,9 @@ services:
     networks:
       - pg-net
 
-volumes:
+volumes: # ввиду отсутсвия ручных настроек docker сам выделяет хранилище для данных postgress
   pg_data:
 
-networks:
-  pg-net:
+networks: 
+  pg-net: # создаем docker мост для сети контейнеров
     driver: bridge
