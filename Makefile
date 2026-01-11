@@ -41,7 +41,7 @@ build-gcc-host-start:
 	./cmd/build_gcc_host_start.sh
 
 build-gcc-lxc-pre:
-	./cmd/build_gcc_lxc_pre.sh
+	./cmd/build_gcc_lxc_pre_parallel.sh
 
 build-gcc-lxc-start:
 	./cmd/build_gcc_lxc_start.sh
