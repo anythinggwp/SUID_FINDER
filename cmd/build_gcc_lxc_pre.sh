@@ -2,6 +2,7 @@
 set -e
 
 CONTNAME=$1
+HOSTADDR=$2
 # CONTNAME2="cont-2"
 # CONTNAME3="cont-3"
 GCCSOURCE="$HOME/git"
@@ -21,7 +22,7 @@ run_in_container() {
 }
 
 echo "Конфигурируем временные настройки сети"
-run_in_container "$CONTNAME" "ip addr add 10.0.3.2/24 dev eth0"
+run_in_container "$CONTNAME" "ip addr add 10.0.3.${HOSTADDR}/24 dev eth0"
 run_in_container "$CONTNAME" "ip route add default via 10.0.3.1"
 
 echo "Обновляем и устанавливаем зависимости в контейнер"
@@ -35,19 +36,7 @@ sudo lxc-start -n "$CONTNAME"
 
 echo "Запускаем конфигурирование сборки"
 
-run_in_container "$CONTNAME" "cd $BUILD && /root/gcc/configure \
-    --prefix=/opt/gcc-test-build \
-    --enable-languages=c \
-    --disable-multilib \
-    --disable-bootstrap \
-    --disable-libstdcxx \
-    --disable-libquadmath \
-    --disable-libsanitizer \
-    --disable-libssp \
-    --disable-libgomp \
-    --disable-libatomic \
-    --disable-nls
-"
+run_in_container "$CONTNAME" "cd $BUILD && /root/gcc/configure --prefix=/opt/gcc-test-build --enable-languages=c --disable-multilib --disable-bootstrap --disable-libstdcxx --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libgomp --disable-libatomic --disable-nls"
 sudo lxc-stop -n "$CONTNAME"
 
 # echo "Клонируем контейнеры"

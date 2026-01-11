@@ -9,9 +9,10 @@ LOGS="/test/logs"
 run_in_container_parallel() {
     local name="$1"
     local cmd="$2"
-    fly-term -e sudo "$cmd $name" &
+    local host="$3"
+    fly-term -e $cmd $name $host &
 }
 
-run_in_container_parallel "$CONTNAME1" "./cmd/gcc_build_script.sh"
-run_in_container_parallel "$CONTNAME2" "./cmd/gcc_build_script.sh"
-run_in_container_parallel "$CONTNAME3" "./cmd/gcc_build_script.sh"
+run_in_container_parallel "$CONTNAME1" "./cmd/build_gcc_lxc_pre.sh" "2"
+run_in_container_parallel "$CONTNAME2" "./cmd/build_gcc_lxc_pre.sh" "3"
+run_in_container_parallel "$CONTNAME3" "./cmd/build_gcc_lxc_pre.sh" "4"
