@@ -50,5 +50,16 @@ build-gcc-lxc-remove:
 	sudo lxc-destroy -n cont-1
 	sudo lxc-destroy -n cont-2
 	sudo lxc-destroy -n cont-3
+
+lxcs-stop:
+	sudo lxc-stop -n cont-1
+	sudo lxc-stop -n cont-2
+	sudo lxc-stop -n cont-3
+
+lxcs-start:
+	sudo lxc-start -n cont-1
+	sudo lxc-start -n cont-2
+	sudo lxc-start -n cont-3
+
 tar-simply:
 	tar -czf simply.tar.gz ./simply_http_server
