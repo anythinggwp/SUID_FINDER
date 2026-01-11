@@ -19,6 +19,10 @@ run_in_container() {
     sudo lxc-attach -n "$name" -- bash -c "$cmd"
 }
 
+echo "Конфигурируем временные настройки сети"
+run_in_container "$CONTNAME1" "ip addr add 10.0.3.2/24 dev eth0"
+run_in_container "$CONTNAME1" "ip route add default via 10.0.3.1"
+
 echo "Обновляем и устанавливаем зависимости в контейнер"
 run_in_container "$CONTNAME1" "apt-get update && apt-get install -y build-essential gcc g++ make flex bison libgmp-dev libmpfr-dev libmpc-dev texinfo wget git time"
 run_in_container "$CONTNAME1" "mkdir -p $BUILD $LOGS /opt/gcc-test-build"
