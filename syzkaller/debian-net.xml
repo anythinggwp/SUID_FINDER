@@ -1,0 +1,10 @@
+<network>
+  <name>debian-net</name>
+  <forward mode='nat'/>
+  <bridge name='virbr5' stp='on' delay='0'/>
+  <ip address='192.168.112.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.112.50' end='192.168.112.200'/>
+    </dhcp>
+  </ip>
+</network>
