@@ -3,7 +3,7 @@
 echo "Обновляем список пакетов"
 
 apt update
-apt install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev bc git
+apt install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev bc git wget
 
 echo "Устанавливаем Go"
 
@@ -13,6 +13,10 @@ export PATH=$PATH:/usr/local/go/bin
 go version
 
 echo "Устанавливаем syzkaller"
-git clone https://github.com/google/syzkaller
+if [ ! -d "syzkaller" ]; then
+    git clone https://github.com/google/syzkaller.git "syzkaller"
+else
+    echo "Репозиторий уже существует, пропускаем клонирование."
+fi
 cd syzkaller
 make
