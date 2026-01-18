@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/bash
 
 echo "Обновляем список пакетов"
 
@@ -7,7 +7,7 @@ apt install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev b
 
 echo "Устанавливаем Go"
 
-wget --no-clobber -O https://go.dev/dl/go1.25.6.linux-amd64.tar.gz
+wget --no-clobber https://go.dev/dl/go1.25.6.linux-amd64.tar.gz
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.25.6.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 go version
